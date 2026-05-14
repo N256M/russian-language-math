@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Русский язык как математическая система — Мефтахутдинова Н.Р.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0c0f1a;
+  --surface:  #111627;
+  --border:   rgba(120,140,200,.14);
+  --navy:     #1e3f8a;
+  --blue:     #3a6fd8;
+  --accent:   #c8a84b;
+  --red:      #c0432b;
+  --text:     #e8e4da;
+  --muted:    #7a8099;
+  --pale:     rgba(232,228,218,.07);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Instrument Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: .5;
+}
+
+.glow {
+  position: fixed; border-radius: 50%; filter: blur(120px);
+  pointer-events: none; z-index: 0;
+}
+.glow-1 { width: 600px; height: 600px; top: -200px; left: -100px; background: radial-gradient(circle, rgba(30,63,138,.35) 0%, transparent 70%); }
+.glow-2 { width: 500px; height: 500px; bottom: -100px; right: -100px; background: radial-gradient(circle, rgba(200,168,75,.12) 0%, transparent 70%); }
+
+.site { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 28px; }
+
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 26px 0 22px;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: .14em; color: var(--accent);
+  text-transform: uppercase;
+}
+.nav-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--muted); letter-spacing: .08em;
+}
+
+.hero {
+  padding: 72px 0 56px;
+  display: grid; grid-template-columns: 1fr 260px; gap: 40px; align-items: start;
+}
+.hero-kicker {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px; letter-spacing: .2em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-kicker::before {
+  content: '';
+  display: block; width: 28px; height: 1px; background: var(--accent);
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 5vw, 48px); font-weight: 600; line-height: 1.12;
+  margin-bottom: 12px; letter-spacing: -.01em;
+}
+.hero-title em { color: var(--accent); font-style: italic; }
+.hero-sub {
+  font-size: 14px; color: var(--muted); line-height: 1.7;
+  max-width: 480px; margin-bottom: 32px; font-weight: 400;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: all .22s ease;
+}
+.btn-primary {
+  background: var(--accent); color: #0c0f1a; font-weight: 500;
+}
+.btn-primary:hover { background: #e0bf5c; transform: translateY(-1px); }
+.btn-outline {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.formula-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 22px 20px;
+  position: relative; overflow: hidden;
+}
+.formula-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--navy), var(--accent));
+}
+.fc-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; letter-spacing: .16em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.fc-formula {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px; color: var(--text); line-height: 1.8;
+}
+.fc-formula .hi { color: var(--accent); }
+.fc-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+.fc-hyp {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-style: italic; color: var(--muted); line-height: 1.6;
+}
+
+section { padding: 56px 0; border-top: 1px solid var(--border); }
+.sec-header { margin-bottom: 36px; }
+.sec-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: .2em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px; font-weight: 600; line-height: 1.2;
+}
+
+.props-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+.prop-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 16px 18px;
+  position: relative; overflow: hidden;
+  transition: border-color .2s;
+}
+.prop-card:hover { border-color: rgba(192,67,43,.4); }
+.prop-card::after {
+  content: '✗';
+  position: absolute; right: 14px; top: 12px;
+  font-size: 13px; color: var(--red); opacity: .7;
+  font-family: 'DM Mono', monospace;
+}
+.prop-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+.prop-eg   { font-size: 11px; color: var(--muted); line-height: 1.55; font-style: italic; }
+
+.models-list { display: flex; flex-direction: column; gap: 2px; }
+.model-item {
+  display: grid; grid-template-columns: 4px 1fr;
+  background: var(--surface); border: 1px solid var(--border);
+  overflow: hidden; transition: border-color .2s, transform .2s;
+}
+.model-item:hover { border-color: rgba(200,168,75,.3); transform: translateX(4px); }
+.model-stripe { background: var(--blue); }
+.model-stripe.r  { background: var(--red); }
+.model-stripe.g  { background: var(--accent); }
+.model-stripe.gr { background: #2a7a4e; }
+.model-body { padding: 14px 18px; }
+.model-lvl {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: .14em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.model-name { font-size: 13.5px; font-weight: 600; margin-bottom: 4px; }
+.model-desc { font-size: 11px; color: var(--muted); line-height: 1.55; }
+.model-lim  { font-size: 10px; color: rgba(192,67,43,.8); margin-top: 5px; font-style: italic; }
+
+.barriers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.barrier-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 18px 18px 16px;
+  transition: border-color .2s;
+}
+.barrier-card:hover { border-color: rgba(58,111,216,.4); }
+.b-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px; font-weight: 700; color: rgba(200,168,75,.12);
+  line-height: 1; margin-bottom: 4px;
+}
+.b-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.b-text { font-size: 11px; color: var(--muted); line-height: 1.6; }
+.b-eg   { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--red); margin-top: 6px; }
+
+/* ── RELEVANCE (актуальность) ── */
+.rel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.rel-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px 18px;
+  transition: border-color .2s;
+}
+.rel-card:hover { border-color: rgba(200,168,75,.3); }
+.rel-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.rel-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.rel-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── CONCLUSIONS (выводы) ── */
+.conc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.conc-item {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+}
+.conc-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.8;
+}
+.conc-body {
+  flex: 1;
+}
+.conc-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.conc-text {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.qa-list { display: flex; flex-direction: column; gap: 2px; }
+.qa-item {
+  background: var(--surface); border: 1px solid var(--border);
+  overflow: hidden;
+}
+.qa-toggle {
+  width: 100%; background: none; border: none; color: var(--text);
+  padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; text-align: left; gap: 16px;
+  transition: background .18s;
+  font-family: 'Instrument Sans', sans-serif;
+}
+.qa-toggle:hover { background: var(--pale); }
+.qa-q-text { font-size: 12.5px; font-weight: 500; line-height: 1.4; }
+.qa-arrow {
+  font-family: 'DM Mono', monospace; font-size: 14px; color: var(--accent);
+  min-width: 16px; transition: transform .2s;
+}
+.qa-item.open .qa-arrow { transform: rotate(45deg); }
+.qa-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height .3s ease, padding .3s ease;
+  padding: 0 18px; color: var(--muted); font-size: 12px; line-height: 1.7;
+}
+.qa-item.open .qa-answer { max-height: 200px; padding: 0 18px 14px; }
+
+.author-grid { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: start; }
+.author-avatar {
+  width: 72px; height: 72px; border-radius: 0;
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 700; color: rgba(255,255,255,.85);
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.author-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px; font-weight: 600; margin-bottom: 4px;
+}
+.author-role { font-size: 12px; color: var(--accent); margin-bottom: 10px; font-family: 'DM Mono', monospace; letter-spacing: .06em; }
+
+.download-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 28px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  position: relative; overflow: hidden;
+}
+.download-block::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(30,63,138,.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.dl-info { flex: 1; }
+.dl-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: .18em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.dl-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600; margin-bottom: 6px;
+}
+.dl-meta { font-size: 12px; color: var(--muted); }
+.dl-btn {
+  background: var(--navy); color: var(--text);
+  border: 1px solid rgba(58,111,216,.4);
+  padding: 13px 26px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer;
+  transition: all .2s; white-space: nowrap; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.dl-btn:hover { background: var(--blue); border-color: var(--blue); transform: translateY(-1px); }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0 40px;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  flex-wrap: wrap;
+}
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--muted); letter-spacing: .06em;
+}
+.footer-uni {
+  font-size: 11px; color: var(--muted);
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .hero { grid-template-columns: 1fr; }
+  .formula-card { display: none; }
+  .props-grid { grid-template-columns: 1fr; }
+  .barriers-grid { grid-template-columns: 1fr; }
+  .author-grid { grid-template-columns: 1fr; }
+  .download-block { flex-direction: column; align-items: flex-start; }
+  footer { flex-direction: column; text-align: center; }
+  .footer-uni { text-align: center; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-kicker { animation: fadeUp .6s ease both; }
+.hero-title  { animation: fadeUp .6s .1s ease both; }
+.hero-sub    { animation: fadeUp .6s .2s ease both; }
+.hero-actions{ animation: fadeUp .6s .3s ease both; }
+.formula-card{ animation: fadeUp .6s .4s ease both; }
+</style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<div class="site">
+
+  <nav>
+    <div class="nav-logo">Мефтахутдинова Н.Р. · 2026</div>
+    <div class="nav-tag">УлГУ · Конференция</div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-kicker">Исследовательская работа</div>
+      <h1 class="hero-title">Русский язык как <em>математическая</em> система</h1>
+      <p class="hero-sub">Анализ применимости и границы формализации. Можно ли записать грамматику русского языка как формулу — и почему это принципиально невозможно?</p>
+      <div class="hero-actions">
+        <!-- Ссылка на DOCX с русским именем (пробелы заменены на %20) -->
+        <a href="Исследование%20для%20конференции.docx" class="btn btn-primary" id="dl-main">
+          ↓ Скачать исследование (DOCX)
+        </a>
+        <a href="#qa" class="btn btn-outline">Вопросы и ответы</a>
+      </div>
+    </div>
+    <div class="formula-card">
+      <div class="fc-label">Гибридная модель</div>
+      <div class="fc-formula">
+        L = <span class="hi">Alg</span><sub>part</sub><br>
+        &nbsp;&nbsp;⊕ <span class="hi">Graph</span><sub>dep</sub><br>
+        &nbsp;&nbsp;⊕ <span class="hi">Fuzzy</span><sub>sem</sub><br>
+        &nbsp;&nbsp;⊕ <span class="hi">Game</span><sub>prag</sub>
+      </div>
+      <div class="fc-divider"></div>
+      <div class="fc-hyp">Полная формализация невозможна — гибридная описывает реальные NLP-системы.</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-header">
+      <div class="sec-num">01 — Постановка задачи</div>
+      <h2 class="sec-title">Почему язык ≠ математическая система</h2>
+    </div>
+    <p style="font-size:13px; color:var(--muted); line-height:1.75; max-width:600px; margin-bottom:28px;">
+      Формальная система обязана удовлетворять четырём свойствам. Русский язык нарушает каждое из них — и вот где именно это происходит:
+    </p>
+    <div class="props-grid">
+      <div class="prop-card"><div class="prop-name">Замкнутость</div><div class="prop-eg">«Метро», «кенгуру» — падежная операция не определена для несклоняемых слов</div></div>
+      <div class="prop-card"><div class="prop-name">Однозначность</div><div class="prop-eg">«Стекла» — существительное ед.ч., мн.ч. или глагол прошедшего времени?</div></div>
+      <div class="prop-card"><div class="prop-name">Обратимость</div><div class="prop-eg">«Лечу» — от «лететь» или «лечить»? По форме восстановить исходное нельзя</div></div>
+      <div class="prop-card"><div class="prop-name">Дедуктивная полнота</div><div class="prop-eg">«Кошка на коврике» — истинно? Нужны знания о мире, а не аксиомы языка</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-header">
+      <div class="sec-num">02 — Гибридная модель</div>
+      <h2 class="sec-title">4 уровня — 4 математические модели</h2>
+    </div>
+    <div class="models-list">
+      <div class="model-item"><div class="model-stripe"></div><div class="model-body"><div class="model-lvl">Морфология</div><div class="model-name">Циклическая группа Z₆</div><div class="model-desc">Шесть падежей образуют цикл: сложение номеров по mod 6 — как часы, где после 5 идёт 0. Доказывается биективное отображение падежей в Z₆.</div><div class="model-lim">✂ Ломается на несклоняемых словах и омонимии</div></div></div>
+      <div class="model-item"><div class="model-stripe r"></div><div class="model-body"><div class="model-lvl">Синтаксис</div><div class="model-name">Ориентированный граф зависимостей</div><div class="model-desc">Слова — вершины, синтаксические связи — стрелки. Международный стандарт Universal Dependencies. «Мальчик читает книгу»: читает → мальчик, читает → книгу.</div><div class="model-lim">✂ «Казнить нельзя помиловать» — два разных графа</div></div></div>
+      <div class="model-item"><div class="model-stripe g"></div><div class="model-body"><div class="model-lvl">Семантика</div><div class="model-name">Нечёткие множества (Заде, 1965)</div><div class="model-desc">Степень принадлежности μ ∈ [0, 1] вместо чёткого да/нет. «Высокий на 0.7» — формально описывает градуальные понятия: тёплый, быстрый, далёкий.</div><div class="model-lim">✂ Не работает для метафор и точных понятий («простое число»)</div></div></div>
+      <div class="model-item"><div class="model-stripe gr"></div><div class="model-body"><div class="model-lvl">Прагматика</div><div class="model-name">Теория игр — равновесие Нэша</div><div class="model-desc">Выбор стратегии общения как игра двух участников. Вежливая просьба Nash-оптимальна: выгодна говорящему и слушающему одновременно.</div><div class="model-lim">✂ Не описывает иронию, эмоции, культурные различия</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-header">
+      <div class="sec-num">03 — Фундаментальные ограничения</div>
+      <h2 class="sec-title">Почему полная формализация невозможна</h2>
+    </div>
+    <div class="barriers-grid">
+      <div class="barrier-card"><div class="b-n">1</div><div class="b-name">Контекстная зависимость</div><div class="b-text">Смысл зависит от предыдущих предложений. Математическая система работает с каждой формулой изолированно.</div><div class="b-eg">«Он вошёл. Там было темно.» — кто «он», где «там»?</div></div>
+      <div class="barrier-card"><div class="b-n">2</div><div class="b-name">Открытость словаря</div><div class="b-text">Язык постоянно пополняется новыми словами. Формальная система требует фиксированного алфавита.</div><div class="b-eg">«Кринж», «хайп», «вайб» — появились после любой фиксации</div></div>
+      <div class="barrier-card"><div class="b-n">3</div><div class="b-name">Самореференция</div><div class="b-text">Язык говорит о самом себе. Теорема Тарского: нельзя определить «истину» внутри той же системы без парадоксов.</div><div class="b-eg">«Это предложение ложно» — классический парадокс лжеца</div></div>
+      <div class="barrier-card"><div class="b-n">4</div><div class="b-name">Иерархия типов (Монтегю)</div><div class="b-text">Для полного описания семантики нужна бесконечная иерархия типов. Классическая формальная система конечна.</div><div class="b-eg">Тип «вежливо быстро прочитал каждый» — уже шестой уровень</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-header">
+      <div class="sec-num">04 — Актуальность</div>
+      <h2 class="sec-title">Зачем это нужно</h2>
+    </div>
+    <p style="font-size:13px; color:var(--muted); line-height:1.75; max-width:640px; margin-bottom:28px;">
+      Каждый раз, когда вы пользуетесь переводчиком, голосовым помощником или автокоррекцией — работают именно эти модели. Понимание их математических оснований объясняет, почему алгоритмы ошибаются и где у них принципиальные пределы.
+    </p>
+    <div class="rel-grid">
+      <div class="rel-card"><div class="rel-icon">⌨</div><div class="rel-name">Машинный перевод</div><div class="rel-desc">Морфологический анализатор на основе частичной алгебры + синтаксический парсер на графах. Именно поэтому Яндекс.Переводчик иногда путает падежи у несклоняемых слов.</div></div>
+      <div class="rel-card"><div class="rel-icon">🎤</div><div class="rel-name">Голосовые помощники</div><div class="rel-desc">Алиса и Siri используют нечёткую семантику и диалоговые стратегии из теории игр. Ошибки при иронии и сленге — прямое следствие границ этих моделей.</div></div>
+      <div class="rel-card"><div class="rel-icon">✦</div><div class="rel-name">Нейросети (GPT, LLM)</div><div class="rel-desc">Аппроксимируют язык статистически, не формально. Предсказывают следующий токен — не выводят смысл. Поэтому галлюцинируют факты и ломаются на строгой логике.</div></div>
+      <div class="rel-card"><div class="rel-icon">🔒</div><div class="rel-name">Информационная безопасность</div><div class="rel-desc">Анализ текстов на угрозы, фишинг, дезинформацию — NLP-задачи. Понимание формальных ограничений помогает строить более надёжные детекторы.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-header">
+      <div class="sec-num">05 — Выводы</div>
+      <h2 class="sec-title">Что показало исследование</h2>
+    </div>
+    <div class="conc-list">
+      <div class="conc-item"><div class="conc-num">I</div><div class="conc-body"><div class="conc-title">Русский язык не является классической математической системой</div><div class="conc-text">Нарушены все четыре ключевых свойства: замкнутость, однозначность, обратимость, дедуктивная полнота. Это не недостаток языка — это его природа и источник гибкости.</div></div></div>
+      <div class="conc-item"><div class="conc-num">II</div><div class="conc-body"><div class="conc-title">Отдельные уровни языка успешно формализуются</div><div class="conc-text">Морфология — через частичную алгебру Z₆, синтаксис — через граф зависимостей, семантика — через нечёткие множества, прагматика — через теорию игр. Каждая модель работает в своих границах.</div></div></div>
+      <div class="conc-item"><div class="conc-num">III</div><div class="conc-body"><div class="conc-title">Полная формализация принципиально невозможна</div><div class="conc-text">Контекстная зависимость, открытый словарь, самореференция и бесконечная иерархия типов Монтегю — фундаментальные барьеры, а не технические ограничения.</div></div></div>
+      <div class="conc-item"><div class="conc-num">IV</div><div class="conc-body"><div class="conc-title">Гибридная модель описывает реальные NLP-системы</div><div class="conc-text">Комбинация четырёх моделей объясняет устройство современных переводчиков и голосовых помощников — и точно показывает, где у них заканчиваются возможности.</div></div></div>
+    </div>
+  </section>
+
+  <section id="qa">
+    <div class="sec-header">
+      <div class="sec-num">06 — Вопросы и ответы</div>
+      <h2 class="sec-title">Часто спрашивают</h2>
+    </div>
+    <div class="qa-list">
+      <div class="qa-item"><button class="qa-toggle" onclick="toggleQA(this)"><span class="qa-q-text">Если язык нельзя формализовать — откуда берётся ChatGPT?</span><span class="qa-arrow">+</span></button><div class="qa-answer">Нейросети аппроксимируют язык статистически — предсказывают следующий токен, не выводят смысл. Именно поэтому они ошибаются в логических задачах и «галлюцинируют» факты. GPT работает на границах формализации, которые описывает это исследование.</div></div>
+      <div class="qa-item"><button class="qa-toggle" onclick="toggleQA(this)"><span class="qa-q-text">Почему Z₆, а не какая-то другая группа?</span><span class="qa-arrow">+</span></button><div class="qa-answer">Потому что в русском языке ровно 6 падежей, и они циклически упорядочены. Для регулярных склонений существует биективное отображение в {0,1,2,3,4,5} с операцией сложения по mod 6. Это не произвольный выбор — это доказуемый изоморфизм.</div></div>
+      <div class="qa-item"><button class="qa-toggle" onclick="toggleQA(this)"><span class="qa-q-text">Гёдель доказал, что даже арифметика неполна — зачем тогда этот критерий?</span><span class="qa-arrow">+</span></button><div class="qa-answer">Именно поэтому — это усиливает аргумент. Если даже арифметика неполна по Гёделю, то язык тем более. Неполнота здесь — не ошибка модели, а фундаментальное свойство любой достаточно богатой системы.</div></div>
+      <div class="qa-item"><button class="qa-toggle" onclick="toggleQA(this)"><span class="qa-q-text">Почему не грамматики Хомского?</span><span class="qa-arrow">+</span></button><div class="qa-answer">КС-грамматики хороши для языков с фиксированным порядком слов. Для русского — с его свободным порядком — они разрастаются экспоненциально. Графы зависимостей описывают структуру независимо от порядка, что точнее для русского.</div></div>
+      <div class="qa-item"><button class="qa-toggle" onclick="toggleQA(this)"><span class="qa-q-text">Почему русский язык сложнее для ИИ, чем английский?</span><span class="qa-arrow">+</span></button><div class="qa-answer">Развитая морфология (6 падежей, 3 рода, множество типов склонений), свободный порядок слов и высокая омонимия. В английском порядок слов фиксирует смысл; в русском — флексии, и это принципиально сложнее для алгоритмов.</div></div>
+      <div class="qa-item"><button class="qa-toggle" onclick="toggleQA(this)"><span class="qa-q-text">Что такое прагматика — это из философии?</span><span class="qa-arrow">+</span></button><div class="qa-answer">Прагматика — раздел лингвистики о том, как контекст меняет смысл. Семантика спрашивает «что значит это слово», прагматика — «что имелось в виду». «Вы не могли бы передать соль?» — буквально вопрос о способности, прагматически — просьба.</div></div>
+    </div>
+  </section>
+
+  <section style="padding-bottom:20px;">
+    <div class="sec-header">
+      <div class="sec-num">07 — Материалы</div>
+      <h2 class="sec-title">Скачать исследование</h2>
+    </div>
+    <div class="download-block">
+      <div class="dl-info">
+        <div class="dl-label">Полный текст работы</div>
+        <div class="dl-title">Формализация русского языка как математической системы</div>
+        <div class="dl-meta">Мефтахутдинова Н.Р. · УлГУ · 2026 · DOCX</div>
+      </div>
+      <a href="Исследование%20для%20конференции.docx" class="dl-btn">
+        ↓ Скачать DOCX
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-header">
+      <div class="sec-num">08 — Автор</div>
+      <h2 class="sec-title">Об авторе</h2>
+    </div>
+    <div class="author-grid">
+      <div class="author-avatar">НМ</div>
+      <div>
+        <div class="author-name">Мефтахутдинова Надежда Руслановна</div>
+        <div class="author-role">Студент · ИБ-О-24/1 · УлГУ · 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-copy">© Мефтахутдинова Н.Р. · 2026</div>
+    <div class="footer-uni">Ульяновский государственный университет</div>
+  </footer>
+
+</div>
+
+<script>
+function toggleQA(btn) {
+  const item = btn.closest('.qa-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.qa-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('section, .download-block').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .6s ease, transform .6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
